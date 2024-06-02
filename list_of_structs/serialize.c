@@ -21,6 +21,9 @@ int main(void) {
     }
 
     Todo **data = calloc(N, sizeof(Todo));
+    if (!data) {
+        return 1;
+    }
 
     for (size_t i = 0; i < N; i++) {
         int tmp;
@@ -29,9 +32,24 @@ int main(void) {
         printf("[INFO]: Filling Todo[%ld]\n", i);
 
         data[i] = malloc(sizeof(Todo));
+        if (!data[i]) {
+            return 1;
+        }
+        
         data[i]->id = (int)malloc(sizeof(int));
+        if (!data[i]->id) {
+            return 1;
+        }
         data[i]->done = malloc(sizeof(bool));
+        if (!data[i]->done) {
+            return 1;
+        }
+
         data[i]->desc = malloc(INPUT_BUFFER * sizeof(char));
+        if (!data[i]->desc) {
+            return 1;
+        }
+
         printf("         ID (int): ");
         scanf("%d", &data[i]->id);
         printf("      Done (bool): ");

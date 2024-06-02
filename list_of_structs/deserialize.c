@@ -22,9 +22,15 @@ int main(void) {
     }
 
     char *line = malloc(INPUT_BUFFER * sizeof(char));
+    if (line == NULL) {
+        return 1;
+    }
     size_t line_len;
 
     Todo **data = calloc(N, sizeof(Todo));
+    if (!data) {
+        return 1;
+    }
 
     for (size_t i = 0; i < N; i++) {
         int id;
@@ -32,9 +38,23 @@ int main(void) {
         char desc[INPUT_BUFFER];
 
         data[i] = malloc(sizeof(Todo));
+        if (!data[i]) {
+            return 1;
+        }
+        
         data[i]->id = (int)malloc(sizeof(int));
+        if (!data[i]->id) {
+            return 1;
+        }
         data[i]->done = malloc(sizeof(bool));
+        if (!data[i]->done) {
+            return 1;
+        }
+
         data[i]->desc = malloc(INPUT_BUFFER * sizeof(char));
+        if (!data[i]->desc) {
+            return 1;
+        }
 
         int j = 0;
         while (getline(&line, &line_len, fp) != EOF) {
