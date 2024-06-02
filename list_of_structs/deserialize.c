@@ -4,7 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FILE_USED "./tasks"
+#define OUT_FILE "./tasks"
+#define READ_BUFFER 256
 #define INPUT_BUFFER 128
 #define N 3
 
@@ -15,7 +16,7 @@ typedef struct {
 } Todo;
 
 int main(void) {
-    FILE *fp = fopen(FILE_USED, "r");
+    FILE *fp = fopen(OUT_FILE, "r");
     if (fp == NULL) {
         fprintf(stderr, "[ERROR]: Opening file failed.\n");
     }
@@ -26,9 +27,8 @@ int main(void) {
     Todo **data = calloc(N, sizeof(Todo));
 
     for (size_t i = 0; i < N; i++) {
-        int j = 0;
         int id;
-        int done_tmp;
+        int tmp;
         char desc[INPUT_BUFFER];
 
         data[i] = malloc(sizeof(Todo));
@@ -36,17 +36,16 @@ int main(void) {
         data[i]->done = malloc(sizeof(bool));
         data[i]->desc = malloc(INPUT_BUFFER * sizeof(char));
 
+        int j = 0;
         while (getline(&line, &line_len, fp) != EOF) {
-            printf("[INFO]: Reading Todo[%d]\n", j);
-            sscanf(line, ";%d;%d;%[^\n]", &id, &done_tmp, desc);
+            printf("[INFO]: Deserializing Todo data[%d]\n", j);
+            sscanf(line, ";%d;%d;%[^\n]", &id, &tmp, desc);
             data[i]->id = id;
-            if (done_tmp == 1) {
-                data[i]->done = true;
-            } else {
-                data[i]->done = false;
-            }
+            data[i]->done = tmp == 1 ? true : false;
             data[i]->desc = desc;
-            printf("%d;%d;%s\n", data[i]->id, data[i]->done, data[i]->desc);
+
+            printf("  ID: %d\nDone: %d\nDesc: %s\n\n",
+                    data[i]->id, data[i]->done, data[i]->desc);
             j++;
         }
     }
@@ -54,8 +53,9 @@ int main(void) {
     if (errno > 0) {
         printf(strerror(errno));
     }
+
     if (feof(fp)) {
-        fprintf(stderr, "[INFO] Todo data file end reached.\n");
+        fprintf(stderr, "[INFO] Output file \"%s\" end reached.\n", OUT_FILE);
     }
 
     free(data);

@@ -4,7 +4,7 @@
 #include <stdlib.h> 
 #include <string.h>
 
-#define FILE_USED "./tasks"
+#define OUT_FILE "./tasks"
 #define INPUT_BUFFER 128
 #define N 3
 
@@ -15,7 +15,7 @@ typedef struct {
 } Todo;
 
 int main(void) {
-    FILE *fp = fopen(FILE_USED, "w");
+    FILE *fp = fopen(OUT_FILE, "w");
     if (fp == NULL) {
         fprintf(stderr, "[ERROR]: Opening file failed.\n");
     }
@@ -36,17 +36,15 @@ int main(void) {
         scanf("%d", &data[i]->id);
         printf("      Done (bool): ");
         scanf("%d", &tmp);
-        if (tmp == 1) {
-            data[i]->done = true;
-        } else {
-            data[i]->done = false;
-        }
 
-        getchar(); // Consume the newline (\n)
-        printf("The task (char *): ");
+        data[i]->done = tmp == 1 ? true : false;
+
+        getchar(); /* Consume the newline from previous input with scanf() */
+        printf("    Desc (char *): ");
         getline(&data[i]->desc, &length, stdin);
         int size = (int)strlen(data[i]->desc);
-        data[i]->desc[size-1] = '\0';
+        /* Change the newline from getline() input to a null character */
+        data[i]->desc[size-1] = '\0'; 
 
         fprintf(fp, ";%d;%d;%s\n", data[i]->id, data[i]->done, data[i]->desc);
     }
