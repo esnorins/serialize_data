@@ -16,14 +16,10 @@ typedef struct {
 
 int main(void) {
     FILE *fp = fopen(OUT_FILE, "w");
-    if (fp == NULL) {
-        fprintf(stderr, "[ERROR]: Opening file failed.\n");
-    }
+    if (!fp) fprintf(stderr, "[ERROR]: Opening file failed.\n");
 
     Todo **data = calloc(N, sizeof(Todo));
-    if (!data) {
-        return 1;
-    }
+    if (!data) return 1;
 
     for (size_t i = 0; i < N; i++) {
         int tmp;
@@ -32,23 +28,16 @@ int main(void) {
         printf("[INFO]: Filling Todo[%ld]\n", i);
 
         data[i] = malloc(sizeof(Todo));
-        if (!data[i]) {
-            return 1;
-        }
+        if (!data[i]) return 1;
         
         data[i]->id = (int)malloc(sizeof(int));
-        if (!data[i]->id) {
-            return 1;
-        }
+        if (!data[i]->id) return 1;
+
         data[i]->done = malloc(sizeof(bool));
-        if (!data[i]->done) {
-            return 1;
-        }
+        if (!data[i]->done) return 1;
 
         data[i]->desc = malloc(INPUT_BUFFER * sizeof(char));
-        if (!data[i]->desc) {
-            return 1;
-        }
+        if (!data[i]->desc) return 1;
 
         printf("         ID (int): ");
         scanf("%d", &data[i]->id);
@@ -67,9 +56,7 @@ int main(void) {
         fprintf(fp, ";%d;%d;%s\n", data[i]->id, data[i]->done, data[i]->desc);
     }
 
-    if (errno > 0) {
-        printf(strerror(errno));
-    }
+    if (errno > 0) printf(strerror(errno));
 
     free(data);
     fclose(fp);
