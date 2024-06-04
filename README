@@ -1,7 +1,11 @@
 serialize_data
 --------------
-This is a collection of projects in which I learn about serialization and
-deserialization. Currently only having one project.
+This is a collection of examples of serializing data structures to files and
+reading them, in which I practice serialization and deserialization. Currently
+only having one project. 
 
-# Date & time of writing: 2024.02.20 06:57:23
+And as of now I'm trying to work on an example for a singly linked list data
+type serialization and deserialization. - 2024.06.04 11:32:21 EEST
+
+# Date & time of writing: 2024.02.20 06:57:23 EEST
 # vim:syntax=conf

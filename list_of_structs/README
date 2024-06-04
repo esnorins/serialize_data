@@ -1,8 +1,13 @@
 serialize_data - list_of_structs
 --------------------------------
-This is a practice project for serializing and deserializing data, this
-specific directory being a directory for practicing serializing and
-deserializing a list of structs (or you could call it an "array" of structs).
+This direcotry contains an exmaple for serialization and deserialization of a
+list of structs. (You could call it an array of structs. ) The `N` could also
+be a value gotten in runtime, but for sake of example I didn't add that
+functionality.
+
+A problem in this is that this approach of storing data requires a continuous
+array of dynamic memory to be allocated, which could not be available if there
+is enough data.
 
 # Date & time of writing: 2024.02.20 01:06:17 EEST
 # vim:syntax=conf
